@@ -1,0 +1,241 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#101827">
+  <title>GRAND FINAL OLYMPIAD MEDSPIN 2026</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    :root {
+      --navy: #101827;
+      --panel: #1b2940;
+      --gold: #e8c779;
+      --white: #ffffff;
+      --muted: #aab5c5;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background:
+        radial-gradient(ellipse at top, #263955 0%, var(--navy) 65%);
+      color: var(--white);
+      font-family: Arial, Helvetica, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 24px;
+    }
+
+    .screen {
+      width: 100%;
+      max-width: 1500px;
+      text-align: center;
+    }
+
+    .eyebrow {
+      color: var(--gold);
+      font-size: clamp(15px, 2vw, 25px);
+      font-weight: 800;
+      letter-spacing: 0.28em;
+      margin-bottom: 12px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(28px, 5vw, 66px);
+      line-height: 1.12;
+      font-weight: 900;
+      letter-spacing: 0.035em;
+    }
+
+    .divider {
+      width: 120px;
+      height: 4px;
+      margin: 24px auto;
+      background: var(--gold);
+      border-radius: 10px;
+    }
+
+    .round {
+      display: inline-block;
+      padding: 9px 24px;
+      border: 1px solid var(--gold);
+      border-radius: 30px;
+      color: var(--gold);
+      font-weight: 800;
+      letter-spacing: 0.15em;
+      margin-bottom: 34px;
+    }
+
+    .teams {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: clamp(6px, 1.6vw, 22px);
+    }
+
+    .team {
+      background: linear-gradient(180deg, #22334d, #172337);
+      border: 1px solid #40516a;
+      border-top: 4px solid var(--gold);
+      border-radius: 14px;
+      padding: clamp(12px, 2.2vw, 28px) 4px;
+      min-width: 0;
+      box-shadow: 0 10px 28px #00000030;
+    }
+
+    .team-name {
+      color: var(--gold);
+      font-size: clamp(11px, 1.8vw, 23px);
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .score-label {
+      color: var(--muted);
+      font-size: clamp(9px, 1.2vw, 14px);
+      letter-spacing: 0.16em;
+      margin-top: 24px;
+    }
+
+    .score {
+      font-size: clamp(30px, 6vw, 76px);
+      line-height: 1.1;
+      font-weight: 900;
+      font-variant-numeric: tabular-nums;
+      margin-top: 8px;
+      overflow-wrap: anywhere;
+    }
+
+    footer {
+      margin-top: 36px;
+      color: var(--muted);
+      font-size: clamp(10px, 1.2vw, 14px);
+      letter-spacing: 0.12em;
+    }
+
+    #status {
+      margin-top: 12px;
+      font-size: 12px;
+      color: var(--muted);
+      letter-spacing: normal;
+    }
+
+    @media (max-width: 500px) {
+      body {
+        padding: 12px 6px;
+      }
+
+      .teams {
+        gap: 4px;
+      }
+
+      .team {
+        border-radius: 8px;
+      }
+
+      .round {
+        margin-bottom: 20px;
+      }
+
+      .score-label {
+        margin-top: 16px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <main class="screen">
+    <div class="eyebrow">GRAND FINAL</div>
+    <h1>OLYMPIAD MEDSPIN 2026</h1>
+    <div class="divider"></div>
+
+    <div class="round">BABAK A</div>
+
+    <section class="teams" id="teams" aria-label="Skor lima tim">
+      <article class="team">
+        <div class="team-name">TIM 1</div>
+        <div class="score-label">SKOR</div>
+        <div class="score">0</div>
+      </article>
+      <article class="team">
+        <div class="team-name">TIM 2</div>
+        <div class="score-label">SKOR</div>
+        <div class="score">0</div>
+      </article>
+      <article class="team">
+        <div class="team-name">TIM 3</div>
+        <div class="score-label">SKOR</div>
+        <div class="score">0</div>
+      </article>
+      <article class="team">
+        <div class="team-name">TIM 4</div>
+        <div class="score-label">SKOR</div>
+        <div class="score">0</div>
+      </article>
+      <article class="team">
+        <div class="team-name">TIM 5</div>
+        <div class="score-label">SKOR</div>
+        <div class="score">0</div>
+      </article>
+    </section>
+
+    <footer>LIVE SCORE · OLYMPIAD MEDSPIN 2026</footer>
+    <div id="status">Menghubungkan ke server skor...</div>
+  </main>
+
+  <script>
+    // Ganti URL di bawah dengan URL Web App Apps Script milikmu.
+    const API_URL = "https://script.google.com/macros/s/AKfycbwbCx-BgX3VK9X7eVIs0Ds_sGGE8idbpaoI2e2-Mxrw14SIn9hMBLeNQHoIbA5T0Hb-/exec";
+
+    async function updateScores() {
+      const status = document.getElementById("status");
+
+      try {
+        const response = await fetch(API_URL, { cache: "no-store" });
+
+        if (!response.ok) {
+          throw new Error("HTTP " + response.status);
+        }
+
+        const data = await response.json();
+
+        if (!Array.isArray(data.teams) || data.teams.length !== 5) {
+          throw new Error("Format data tim tidak sesuai");
+        }
+
+        const cards = document.querySelectorAll(".team");
+
+        data.teams.forEach((team, index) => {
+          cards[index].querySelector(".team-name").textContent =
+            team.name || ("TIM " + (index + 1));
+
+          const score = Number(team.score);
+          cards[index].querySelector(".score").textContent =
+            Number.isFinite(score) ? score.toLocaleString("id-ID") : "0";
+        });
+
+        status.textContent =
+          "Terhubung · Diperbarui " +
+          new Date().toLocaleTimeString("id-ID");
+
+      } catch (error) {
+        console.error("Gagal memperbarui skor:", error);
+        status.textContent =
+          "Menunggu koneksi skor · " +
+          new Date().toLocaleTimeString("id-ID");
+      }
+    }
+
+    updateScores();
+    setInterval(updateScores, 2000);
+  </script>
+</body>
+</html>
