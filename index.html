@@ -195,47 +195,70 @@
     // Ganti URL di bawah dengan URL Web App Apps Script milikmu.
     const API_URL = "https://script.google.com/macros/s/AKfycbwbCx-BgX3VK9X7eVIs0Ds_sGGE8idbpaoI2e2-Mxrw14SIn9hMBLeNQHoIbA5T0Hb-/exec";
 
-    async function updateScores() {
-      const status = document.getElementById("status");
+    
+function updateScores() {
+  const status = document.getElementById("status");
+  const oldScript = document.getElementById("score-api-script");
 
-      try {
-        const response = await fetch(API_URL, { cache: "no-store" });
+  if (oldScript) {
+    oldScript.remove();
+  }
 
-        if (!response.ok) {
-          throw new Error("HTTP " + response.status);
-        }
-
-        const data = await response.json();
-
-        if (!Array.isArray(data.teams) || data.teams.length !== 5) {
-          throw new Error("Format data tim tidak sesuai");
-        }
-
-        const cards = document.querySelectorAll(".team");
-
-        data.teams.forEach((team, index) => {
-          cards[index].querySelector(".team-name").textContent =
-            team.name || ("TIM " + (index + 1));
-
-          const score = Number(team.score);
-          cards[index].querySelector(".score").textContent =
-            Number.isFinite(score) ? score.toLocaleString("id-ID") : "0";
-        });
-
-        status.textContent =
-          "Terhubung · Diperbarui " +
-          new Date().toLocaleTimeString("id-ID");
-
-      } catch (error) {
-        console.error("Gagal memperbarui skor:", error);
-        status.textContent =
-          "Menunggu koneksi skor · " +
-          new Date().toLocaleTimeString("id-ID");
+  window.handleScoreData = function (data) {
+    try {
+      if (!Array.isArray(data.teams) || data.teams.length !== 5) {
+        throw new Error("Format data tim tidak sesuai");
       }
-    }
 
-    updateScores();
-    setInterval(updateScores, 2000);
+      const cards = document.querySelectorAll(".team");
+
+      data.teams.forEach((team, index) => {
+        cards[index].querySelector(".team-name").textContent =
+          team.name || ("TIM " + (index + 1));
+
+        const score = Number(team.score);
+        cards[index].querySelector(".score").textContent =
+          Number.isFinite(score)
+            ? score.toLocaleString("id-ID")
+            : "0";
+      });
+
+      status.textContent =
+        "Terhubung · Diperbarui " +
+        new Date().toLocaleTimeString("id-ID");
+    } catch (error) {
+      console.error("Gagal membaca skor:", error);
+      status.textContent = "Format data skor tidak sesuai";
+    }
+  };
+
+  const script = document.createElement("script");
+  script.id = "score-api-script";
+  script.src =
+    API_URL +
+    (API_URL.includes("?") ? "&" : "?") +
+    "callback=handleScoreData&t=" + Date.now();
+
+  
+let apiTimeout = setTimeout(function () {
+  status.textContent = "API tidak merespons dalam 8 detik";
+}, 8000);
+
+script.onload = function () {
+  clearTimeout(apiTimeout);
+};
+
+script.onerror = function () {
+  clearTimeout(apiTimeout);
+  status.textContent = "Gagal memuat script API";
+};
+
+
+  document.body.appendChild(script);
+}
+
+updateScores();
+setInterval(updateScores, 2000);
   </script>
 </body>
 </html>
