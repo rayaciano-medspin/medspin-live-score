@@ -196,16 +196,21 @@
     const API_URL = "https://script.google.com/macros/s/AKfycbwbCx-BgX3VK9X7eVIs0Ds_sGGE8idbpaoI2e2-Mxrw14SIn9hMBLeNQHoIbA5T0Hb-/exec";
 
     
+
+let apiTimeout;
+
 function updateScores() {
   const status = document.getElementById("status");
   const oldScript = document.getElementById("score-api-script");
 
-  if (oldScript) {
-    oldScript.remove();
-  }
+  if (oldScript) oldScript.remove();
+  if (apiTimeout) clearTimeout(apiTimeout);
+
+  status.textContent = "Menghubungkan ke API skor...";
 
   window.handleScoreData = function (data) {
-    clearTimeout(apiTimeout);
+    if (apiTimeout) clearTimeout(apiTimeout);
+
     try {
       if (!Array.isArray(data.teams) || data.teams.length !== 5) {
         throw new Error("Format data tim tidak sesuai");
@@ -219,9 +224,7 @@ function updateScores() {
 
         const score = Number(team.score);
         cards[index].querySelector(".score").textContent =
-          Number.isFinite(score)
-            ? score.toLocaleString("id-ID")
-            : "0";
+          Number.isFinite(score) ? score.toLocaleString("id-ID") : "0";
       });
 
       status.textContent =
@@ -240,22 +243,20 @@ function updateScores() {
     (API_URL.includes("?") ? "&" : "?") +
     "callback=handleScoreData&t=" + Date.now();
 
-  
+  script.onerror = function () {
+    if (apiTimeout) clearTimeout(apiTimeout);
+    status.textContent = "Gagal memuat script API";
+  };
 
-script.onerror = function () {
-  status.textContent = "Gagal memuat script API";
-};
-
-const apiTimeout = setTimeout(function () {
-  status.textContent = "Callback API tidak diterima";
-}, 8000);
-
+  apiTimeout = setTimeout(function () {
+    status.textContent = "Callback API tidak diterima";
+  }, 8000);
 
   document.body.appendChild(script);
 }
 
 updateScores();
-setInterval(updateScores, 2000);
+setInterval(updateScores, 5000);
   </script>
 </body>
 </html>
