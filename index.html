@@ -197,20 +197,37 @@
 
     
 
-let apiTimeout;
+
+let requestInProgress = false;
+let nextUpdateTimer = null;
+let requestTimeout = null;
 
 function updateScores() {
+  if (requestInProgress) return;
+
+  requestInProgress = true;
+
   const status = document.getElementById("status");
   const oldScript = document.getElementById("score-api-script");
 
   if (oldScript) oldScript.remove();
-  if (apiTimeout) clearTimeout(apiTimeout);
+  if (requestTimeout) clearTimeout(requestTimeout);
 
-  status.textContent = "Menghubungkan ke API skor...";
+  let completed = false;
+
+  function finishRequest(message) {
+    if (completed) return;
+    completed = true;
+
+    if (requestTimeout) clearTimeout(requestTimeout);
+    requestInProgress = false;
+
+    if (message) status.textContent = message;
+
+    nextUpdateTimer = setTimeout(updateScores, 5000);
+  }
 
   window.handleScoreData = function (data) {
-    if (apiTimeout) clearTimeout(apiTimeout);
-
     try {
       if (!Array.isArray(data.teams) || data.teams.length !== 5) {
         throw new Error("Format data tim tidak sesuai");
@@ -227,12 +244,13 @@ function updateScores() {
           Number.isFinite(score) ? score.toLocaleString("id-ID") : "0";
       });
 
-      status.textContent =
+      finishRequest(
         "Terhubung · Diperbarui " +
-        new Date().toLocaleTimeString("id-ID");
+        new Date().toLocaleTimeString("id-ID")
+      );
     } catch (error) {
       console.error("Gagal membaca skor:", error);
-      status.textContent = "Format data skor tidak sesuai";
+      finishRequest("Format data skor tidak sesuai");
     }
   };
 
@@ -244,19 +262,18 @@ function updateScores() {
     "callback=handleScoreData&t=" + Date.now();
 
   script.onerror = function () {
-    if (apiTimeout) clearTimeout(apiTimeout);
-    status.textContent = "Gagal memuat script API";
+    finishRequest("Gagal memuat script API");
   };
 
-  apiTimeout = setTimeout(function () {
-    status.textContent = "Callback API tidak diterima";
-  }, 8000);
+  requestTimeout = setTimeout(function () {
+    finishRequest("Respons API terlambat · Mencoba kembali");
+  }, 15000);
 
+  status.textContent = "Menghubungkan ke API skor...";
   document.body.appendChild(script);
 }
 
 updateScores();
-setInterval(updateScores, 5000);
-  </script>
+</script>
 </body>
 </html>
