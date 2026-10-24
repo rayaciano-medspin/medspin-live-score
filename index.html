@@ -319,11 +319,6 @@
   </button>
 </div>
 
-  <div class="last-update">
-    PEMBARUAN: <span id="last-update">--:--:--</span>
-  </div>
-</div>
-
     
     <section class="teams" id="teams" aria-label="Skor lima tim">
       <article class="team">
@@ -487,21 +482,22 @@ if (scoreElement.textContent !== formattedScore) {
 
 updateScores();
     
+
 const fullscreenBtn = document.getElementById("fullscreen-btn");
 
 if (fullscreenBtn) {
   fullscreenBtn.addEventListener("click", async () => {
+    alert("Tombol fullscreen berhasil diklik");
+
     try {
       if (!document.fullscreenElement) {
         await document.documentElement.requestFullscreen();
-        fullscreenBtn.textContent = "✕ KELUAR LAYAR PENUH";
       } else {
         await document.exitFullscreen();
-        fullscreenBtn.textContent = "⛶ LAYAR PENUH";
       }
     } catch (error) {
-      console.error("Fullscreen tidak tersedia:", error);
-      alert("Mode layar penuh tidak didukung oleh browser ini.");
+      console.error("Fullscreen gagal:", error);
+      alert("Fullscreen gagal: " + error.message);
     }
   });
 
@@ -511,7 +507,6 @@ if (fullscreenBtn) {
       : "⛶ LAYAR PENUH";
   });
 }
-
 </script>
 </body>
 </html>
