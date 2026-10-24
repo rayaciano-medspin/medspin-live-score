@@ -500,11 +500,16 @@ if (fullscreenBtn) {
     }
   });
 
-  document.addEventListener("fullscreenchange", () => {
-    fullscreenBtn.textContent = document.fullscreenElement
-      ? "✕ KELUAR LAYAR PENUH"
-      : "⛶ LAYAR PENUH";
-  });
+  
+document.addEventListener("fullscreenchange", () => {
+  if (document.fullscreenElement) {
+    fullscreenBtn.style.display = "none";
+  } else {
+    fullscreenBtn.style.display = "inline-block";
+    fullscreenBtn.textContent = "⛶ LAYAR PENUH";
+  }
+});
+
 }
 </script>
 </body>
