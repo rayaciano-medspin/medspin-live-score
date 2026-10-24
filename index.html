@@ -323,17 +323,30 @@ function updateScores() {
 
   let completed = false;
 
-  function finishRequest(message) {
-    if (completed) return;
-    completed = true;
+  
+function finishRequest(message) {
+  if (completed) return;
+  completed = true;
 
-    if (requestTimeout) clearTimeout(requestTimeout);
-    requestInProgress = false;
+  if (requestTimeout) clearTimeout(requestTimeout);
+  requestInProgress = false;
 
-    if (message) status.textContent = message;
+  if (message) status.textContent = message;
 
-    nextUpdateTimer = setTimeout(updateScores, 3000);
+  const dot = document.getElementById("live-dot");
+  const liveText = document.getElementById("live-text");
+
+  if (message && message.startsWith("Terhubung")) {
+    if (dot) dot.style.backgroundColor = "#22c55e";
+    if (liveText) liveText.textContent = "LIVE";
+  } else if (message) {
+    if (dot) dot.style.backgroundColor = "#ef4444";
+    if (liveText) liveText.textContent = "KONEKSI BERMASALAH";
   }
+
+  nextUpdateTimer = setTimeout(updateScores, 3000);
+}
+
 
   window.handleScoreData = function (data) {
     try {
