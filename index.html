@@ -162,6 +162,43 @@
   color: #c3ccda;
   line-height: 1.4;
 }
+    
+/* OPTIMASI LIVE SCORE UNTUK LAYAR BESAR */
+
+.team {
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+.team-name {
+  font-size: clamp(20px, 2.2vw, 32px);
+  font-weight: 800;
+  letter-spacing: 1px;
+}
+
+.team-leader {
+  font-size: clamp(14px, 1.3vw, 20px);
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+}
+
+.team-school {
+  font-size: clamp(12px, 1.1vw, 17px);
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+}
+
+.score {
+  font-size: clamp(36px, 4.5vw, 64px);
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+}
+
+.score-label {
+  font-size: clamp(12px, 1vw, 16px);
+  letter-spacing: 2px;
+}
+
   </style>
 </head>
 
