@@ -368,8 +368,14 @@ function finishRequest(message) {
       const updateTime = new Date().toLocaleTimeString("id-ID");
 
       const lastUpdate = document.getElementById("last-update");
-      if (lastUpdate) lastUpdate.textContent = updateTime;
 
+      if (lastUpdate) {
+       lastUpdate.textContent = updateTime;
+       lastUpdate.style.display = "inline";
+      } else {
+        console.error("Elemen last-update tidak ditemukan");
+      }
+      
       finishRequest("Terhubung · Diperbarui " + updateTime);
 
     } catch (error) {
