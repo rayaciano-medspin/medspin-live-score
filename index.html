@@ -239,20 +239,28 @@
 }
   
 /* ANIMASI PERUBAHAN SKOR */
+
 @keyframes scoreUpdate {
   0% {
     transform: scale(1);
+    color: #ffffff;
   }
-  45% {
-    transform: scale(1.12);
+  35% {
+    transform: scale(1.25);
+    color: #facc15;
+    text-shadow: 0 0 18px rgba(250, 204, 21, 0.9);
   }
   100% {
     transform: scale(1);
+    color: #ffffff;
+    text-shadow: none;
   }
 }
 
 .score-updated {
-  animation: scoreUpdate 0.45s ease-out;
+  display: inline-block;
+  transform-origin: center;
+  animation: scoreUpdate 0.8s ease-in-out;
 }
 
   </style>
