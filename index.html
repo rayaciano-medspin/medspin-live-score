@@ -486,6 +486,32 @@ if (scoreElement.textContent !== formattedScore) {
 }
 
 updateScores();
+    
+const fullscreenBtn = document.getElementById("fullscreen-btn");
+
+if (fullscreenBtn) {
+  fullscreenBtn.addEventListener("click", async () => {
+    try {
+      if (!document.fullscreenElement) {
+        await document.documentElement.requestFullscreen();
+        fullscreenBtn.textContent = "✕ KELUAR LAYAR PENUH";
+      } else {
+        await document.exitFullscreen();
+        fullscreenBtn.textContent = "⛶ LAYAR PENUH";
+      }
+    } catch (error) {
+      console.error("Fullscreen tidak tersedia:", error);
+      alert("Mode layar penuh tidak didukung oleh browser ini.");
+    }
+  });
+
+  document.addEventListener("fullscreenchange", () => {
+    fullscreenBtn.textContent = document.fullscreenElement
+      ? "✕ KELUAR LAYAR PENUH"
+      : "⛶ LAYAR PENUH";
+  });
+}
+
 </script>
 </body>
 </html>
