@@ -263,6 +263,35 @@
   animation: scoreUpdate 0.8s ease-in-out;
 }
 
+/* TOMBOL FULLSCREEN */
+.fullscreen-control {
+  display: flex;
+  justify-content: center;
+  margin: 12px 0 24px;
+}
+
+#fullscreen-btn {
+  background: linear-gradient(135deg, #d4af37, #f5d76e);
+  color: #0b1b33;
+  border: 1px solid #f5d76e;
+  border-radius: 8px;
+  padding: 12px 24px;
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+#fullscreen-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 18px rgba(212, 175, 55, 0.35);
+}
+
+#fullscreen-btn:active {
+  transform: scale(0.96);
+}
+
   </style>
 </head>
 
@@ -272,11 +301,24 @@
     <h1>OLYMPIAD MEDSPIN 2026</h1>
     <div class="divider"></div>
     
+
 <div class="live-status">
   <div class="live-indicator">
     <span id="live-dot" class="live-dot"></span>
     <span id="live-text">MENGHUBUNGKAN</span>
   </div>
+
+  <div class="last-update">
+    PEMBARUAN: <span id="last-update">--:--:--</span>
+  </div>
+</div>
+
+<div class="fullscreen-control">
+  <button id="fullscreen-btn" type="button">
+    ⛶ LAYAR PENUH
+  </button>
+</div>
+
   <div class="last-update">
     PEMBARUAN: <span id="last-update">--:--:--</span>
   </div>
