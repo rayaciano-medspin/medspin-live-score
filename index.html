@@ -378,9 +378,23 @@ function finishRequest(message) {
         cards[index].querySelector(".team-name").textContent =
           team.name || ("TIM " + (index + 1));
 
-        const score = Number(team.score);
-        cards[index].querySelector(".score").textContent =
-          Number.isFinite(score) ? score.toLocaleString("id-ID") : "0";
+        
+const scoreElement = cards[index].querySelector(".score");
+const score = Number(team.score);
+const newScore = Number.isFinite(score) ? score : 0;
+const formattedScore = newScore.toLocaleString("id-ID");
+
+if (scoreElement.textContent !== formattedScore) {
+  scoreElement.textContent = formattedScore;
+
+  scoreElement.classList.remove("score-updated");
+  void scoreElement.offsetWidth;
+  scoreElement.classList.add("score-updated");
+
+  setTimeout(() => {
+    scoreElement.classList.remove("score-updated");
+  }, 500);
+}
       });
 
       const updateTime = new Date().toLocaleTimeString("id-ID");
