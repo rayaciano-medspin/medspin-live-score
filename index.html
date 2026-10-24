@@ -365,13 +365,12 @@ function finishRequest(message) {
           Number.isFinite(score) ? score.toLocaleString("id-ID") : "0";
       });
 
-      
-const updateTime = new Date().toLocaleTimeString("id-ID");
+      const updateTime = new Date().toLocaleTimeString("id-ID");
 
-const lastUpdate = document.getElementById("last-update");
-if (lastUpdate) lastUpdate.textContent = updateTime;
+      const lastUpdate = document.getElementById("last-update");
+      if (lastUpdate) lastUpdate.textContent = updateTime;
 
-finishRequest("Terhubung · Diperbarui " + updateTime);
+      finishRequest("Terhubung · Diperbarui " + updateTime);
 
     } catch (error) {
       console.error("Gagal membaca skor:", error);
