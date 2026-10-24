@@ -199,6 +199,44 @@
   letter-spacing: 2px;
 }
 
+/* STATUS KONEKSI LIVE SCORE */
+
+.live-status {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 14px 0 20px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+.live-indicator {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.live-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #eab308;
+  display: inline-block;
+}
+
+.last-update {
+  opacity: 0.8;
+  font-variant-numeric: tabular-nums;
+}
+
+@media (max-width: 600px) {
+  .live-status {
+    font-size: 10px;
+  }
+}
   </style>
 </head>
 
@@ -207,7 +245,18 @@
     <div class="eyebrow">GRAND FINAL</div>
     <h1>OLYMPIAD MEDSPIN 2026</h1>
     <div class="divider"></div>
+    
+<div class="live-status">
+  <div class="live-indicator">
+    <span id="live-dot" class="live-dot"></span>
+    <span id="live-text">MENGHUBUNGKAN</span>
+  </div>
+  <div class="last-update">
+    PEMBARUAN: <span id="last-update">--:--:--</span>
+  </div>
+</div>
 
+    
     <section class="teams" id="teams" aria-label="Skor lima tim">
       <article class="team">
         <div class="team-name">TIM 1</div>
